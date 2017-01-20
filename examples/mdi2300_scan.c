@@ -24,5 +24,6 @@ int main(int argc, const char *argv[])
 
 	ret = mdi2300_scan(device, buffer, sizeof(buffer));
 end:
+	mdi2300_close(device);
 	return ret;
 }

@@ -69,7 +69,8 @@ int mdi2300_serial_send_cmd(int fd, char *cmd)
 		return -1;
 
 	ret = mdi2300_serial_write(fd, cmd, strlen(cmd));
-	if (ret == (int)strlen(cmd))
+	/* Cancel transfer command is not acked */
+	if ((ret == (int)strlen(cmd)) && (strcmp(cmd, CANCEL_TRANSFER)))
 		ret = mdi2300_serial_wait_ack(fd);
 
 	return ret;
@@ -137,6 +138,30 @@ int mdi2300_init(char *device)
 
 	close(fd);
 
+	return ret;
+}
+
+int mdi2300_close(char *device)
+{
+	int ret;
+	int fd;
+
+	/* Opening the device */
+	fd = open(device, O_RDWR);
+	if (fd < 0) {
+		ERR("failed to open %s: %d", device, errno);
+		return -1;
+	}
+
+	ret = mdi2300_serial_send_cmd(fd, TRIGGER_STOP);
+	if (ret < 0)
+		goto end;
+
+	ret = mdi2300_serial_send_cmd(fd, CANCEL_TRANSFER);
+	if (ret < 0)
+		goto end;
+end:
+	close(fd);
 	return ret;
 }
 

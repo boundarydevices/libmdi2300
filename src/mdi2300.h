@@ -5,7 +5,7 @@
 #ifndef _MDI2300_H
 #define _MDI2300_H
 
-#define DEBUG
+/* #define DEBUG */
 
 /* Commands from MDI-2300 Serial Interface document */
 
@@ -16,6 +16,8 @@
 
 #define TRIGGER_START	"\x1bZ\r"
 #define TRIGGER_STOP	"\x1bY\r"
+#define TRIGGER_ENABLE	"\x1bS8\r"
+#define TRIGGER_DISABLE	"\x1bS7\r"
 
 #define BUZZER_GOOD	"\x1b""B\r"
 #define BUZZER_ERROR	"\x1b""E\r"
@@ -35,6 +37,8 @@
 #define READ_CONTINUOUS	"\x1bS2\r"
 
 #define CODE_ALL	"\x1b""A0\r"
+
+#define CANCEL_TRANSFER	"\x18"
 
 /* Convenient printing macros */
 
