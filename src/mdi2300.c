@@ -182,7 +182,11 @@ int mdi2300_scan(char *device, char *buffer, int length)
 	if (ret < 0)
 		goto end;
 
-	ret = mdi2300_serial_send_cmd(fd, READ_CONTINUOUS);
+	ret = mdi2300_serial_send_cmd(fd, READ_MULTIPLE);
+	if (ret < 0)
+		goto end;
+
+	ret = mdi2300_serial_send_cmd(fd, TRIGGER_ENABLE);
 	if (ret < 0)
 		goto end;
 
