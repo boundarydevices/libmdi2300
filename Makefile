@@ -20,7 +20,7 @@ OBJ_LIB = $(SRC_LIB:%.c=$O/%.o)
 OBJ_BIN = $(SRC_BIN:%.c=$O/%.o)
 TARGET_LIB = $O/libmdi2300.so.0
 TARGET_LN = $O/libmdi2300.so
-TARGET_BIN = $O/mdi2300
+TARGET_BIN = $O/mdi2300_scan
 BINS = $(TARGET_LIB) $(TARGET_LN) $(TARGET_BIN)
 
 DESTDIR ?= /usr

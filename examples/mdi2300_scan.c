@@ -23,6 +23,11 @@ int main(int argc, const char *argv[])
 		goto end;
 
 	ret = mdi2300_scan(device, buffer, sizeof(buffer));
+	if (ret > 0) {
+		/* Make sure the string is terminated */
+		buffer[ret] = '\0';
+		printf("Code: %s\n", buffer);
+	}
 end:
 	mdi2300_close(device);
 	return ret;
