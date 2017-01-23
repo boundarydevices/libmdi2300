@@ -42,6 +42,8 @@ int main(int argc, const char *argv[])
 		buffer[ret] = '\0';
 		printf("Code: %s\n", buffer);
 	}
+	if (ret == 0)
+		printf("Timeout!\n");
 end:
 	mdi2300_close(device);
 	return ret;
