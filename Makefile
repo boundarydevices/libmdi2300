@@ -85,8 +85,8 @@ install: all
 	$E install -m644 libmdi2300.pc $(DESTDIR)/lib/pkgconfig
 	$E cp -R $(TARGET_LN) $(DESTDIR)/lib
 
-.PHONY: examples_install
-examples_install: examples
+.PHONY: install_examples
+install_examples: examples
 	$P '  INSTALL DIRS'
 	$E mkdir -p $(DESTDIR)/bin
 	$P '  INSTALL FILES'
@@ -100,7 +100,6 @@ uninstall:
 	$E rm -f $(DESTDIR)/lib/$(notdir $(TARGET_LIB))
 	$E rm -f $(DESTDIR)/bin/$(notdir $(TARGET_BIN))
 	$E rm -f $(DESTDIR)/include/$(notdir $(INC))
-	$E rm -fr $(DESTDIR)/share/doc/libmdi2300
 
 .PHONY: help
 help:
