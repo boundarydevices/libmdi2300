@@ -18,10 +18,9 @@ SRC_BIN = $(wildcard examples/*.c)
 OBJS = $(OBJ_LIB) $(OBJ_BIN)
 OBJ_LIB = $(SRC_LIB:%.c=$O/%.o)
 OBJ_BIN = $(SRC_BIN:%.c=$O/%.o)
-TARGET_LIB = $O/libmdi2300.so.0
-TARGET_LN = $O/libmdi2300.so
+TARGET_LIB = $O/libmdi2300.so
 TARGET_BIN = $O/mdi2300_scan
-BINS = $(TARGET_LIB) $(TARGET_LN) $(TARGET_BIN)
+BINS = $(TARGET_LIB) $(TARGET_BIN)
 
 DESTDIR ?= /usr
 
@@ -56,16 +55,12 @@ $(TARGET_LIB) : $(OBJ_LIB)
 	$P '  LD      $(@F)'
 	$E $(CC) -shared $(LINKERFLAG) $(LDFLAGS) $^ -o $@
 
-$(TARGET_LN): $(TARGET_LIB)
-	$P '  LN      $(notdir $@)'
-	$E - ln -fs $(<F) $@
-
 $(TARGET_BIN): $(OBJ_BIN)
 	$P '  LD      $(@F)'
 	$E $(CC) $(LDFLAGS) $^ -L$O -lmdi2300 -o $@
 
 .PHONY : all
-all : $(TARGET_LN)
+all : $(TARGET_LIB)
 
 examples : $(TARGET_BIN)
 
@@ -83,7 +78,6 @@ install: all
 	$E install $(TARGET_LIB) $(DESTDIR)/lib
 	$E install $(INC) $(DESTDIR)/include
 	$E install -m644 libmdi2300.pc $(DESTDIR)/lib/pkgconfig
-	$E cp -R $(TARGET_LN) $(DESTDIR)/lib
 
 .PHONY: install_examples
 install_examples: examples
@@ -96,7 +90,6 @@ install_examples: examples
 uninstall:
 	$P '  UNINSTALL'
 	$E rm -f $(DESTDIR)/lib/pkgconfig/libmdi2300.pc
-	$E rm -f $(DESTDIR)/lib/$(notdir $(TARGET_LN))
 	$E rm -f $(DESTDIR)/lib/$(notdir $(TARGET_LIB))
 	$E rm -f $(DESTDIR)/bin/$(notdir $(TARGET_BIN))
 	$E rm -f $(DESTDIR)/include/$(notdir $(INC))
